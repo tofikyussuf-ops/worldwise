@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import Button from "../components/Button";
+import SpinnerFullPage from "../components/SpinnerFullPage";
 import PageNav from "../components/PageNav";
 import { useAuth } from "../contexts/FakeAuthContext";
 import styles from "./Login.module.css";
@@ -22,6 +23,8 @@ export default function Login() {
   if (isAuthenticated) {
     return <Navigate to={from} replace />;
   }
+
+  if (isSubmitting) return <SpinnerFullPage />;
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -83,4 +86,3 @@ export default function Login() {
     </main>
   );
 }
-// ...existing code...

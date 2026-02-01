@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigation } from "react-router-dom";
 import PageNav from "../components/PageNav";
 import styles from "./Homepage.module.css";
-import { useAuth } from "../contexts/FakeAuthContext"; // Import your auth hook
+import { useAuth } from "../contexts/FakeAuthContext";
 export default function Homepage() {
   const { isAuthenticated } = useAuth();
+  const navigation = useNavigation();
+  const isFetchingApp = isAuthenticated && navigation.state === "loading";
   return (
     <main className={styles.homepage}>
       <PageNav />
@@ -19,8 +21,16 @@ export default function Homepage() {
           of. Never forget your wonderful experiences, and show your friends how
           you have wandered the world.
         </h2>
-        <Link to={isAuthenticated ? "/app" : "/login"} className="cta">
-          {isAuthenticated ? "Go to App" : "Start tracking now"}
+        <Link
+          to={isAuthenticated ? "/app" : "/login"}
+          className="cta"
+          aria-busy={isFetchingApp ? "true" : "false"}
+        >
+          {isAuthenticated
+            ? isFetchingApp
+              ? "Fetching app..."
+              : "Go to App"
+            : "Start tracking now"}
         </Link>
       </section>
     </main>

@@ -5,7 +5,6 @@ import CountryList from "./components/CountryList";
 import Form from "./components/Form";
 import CityList, { loader as citiesLoader } from "./components/CityList";
 import City, { loader as cityLoader } from "./components/City";
-import { CitiesProvider } from "./contexts/CitiesContext";
 
 const Homepage = lazy(() => import("./pages/Homepage"));
 const Product = lazy(() => import("./pages/Product"));
@@ -25,9 +24,7 @@ export default createBrowserRouter([
     loader: citiesLoader,
     element: (
       <ProtectedRoute>
-        <CitiesProvider>
-          <AppLayout />
-        </CitiesProvider>
+        <AppLayout />
       </ProtectedRoute>
     ),
     errorElement: <PageNotFound />,

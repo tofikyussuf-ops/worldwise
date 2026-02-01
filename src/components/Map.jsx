@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useRouteLoaderData } from "react-router-dom";
+import { useCities } from "../contexts/CitiesContext";
 import {
   MapContainer,
   TileLayer,
@@ -16,8 +16,8 @@ import { useUrlPosition } from "../hooks/useUrlPosition";
 import Button from "./Button";
 
 function Map() {
-  // 1. Getting data from the Router's parent loader (appData)
-  const cities = useRouteLoaderData("appData");
+  // 1. Getting data from the Cities context
+  const { cities } = useCities();
 
   const [mapPosition, setMapPosition] = useState([40, 0]);
   const {
@@ -30,7 +30,7 @@ function Map() {
   // 2. Syncing map position with URL coordinates
   useEffect(
     function () {
-      if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
+      if (mapLat && mapLng) setMapPosition([Number(mapLat), Number(mapLng)]);
     },
     [mapLat, mapLng],
   );
@@ -64,7 +64,7 @@ function Map() {
         />
 
         {/* Rendering markers from the Router Data */}
-        {cities.map((city) => (
+        {(cities || []).map((city) => (
           <Marker
             position={[city.position.lat, city.position.lng]}
             key={city.id}
@@ -84,16 +84,19 @@ function Map() {
 
 function ChangeCenter({ position }) {
   const map = useMap();
-  map.setView(position);
+  useEffect(() => {
+    if (position) map.setView(position);
+  }, [map, position]);
   return null;
 }
 
 function DetectClick() {
   const navigate = useNavigate();
-
   useMapEvents({
     click: (e) => navigate(`form?lat=${e.latlng.lat}&lng=${e.latlng.lng}`),
   });
+
+  return null;
 }
 
 export default Map;

@@ -69,10 +69,11 @@ function reducer(state, action) {
 
 // ... (BASE_URL and fetch functions stay the same)
 
-function CitiesProvider({ children }) {
+function CitiesProvider({ children, initialCities = [] }) {
+  const init = { ...initialState, cities: initialCities };
   const [{ cities, isLoading, currentCity, error }, dispatch] = useReducer(
     reducer,
-    initialState,
+    init,
   );
 
   async function createCity(newCity) {

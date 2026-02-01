@@ -1,4 +1,4 @@
-import { useNavigation } from "react-router-dom";
+import { useNavigation, useRouteLoaderData } from "react-router-dom";
 import Map from "../components/Map";
 import Sidebar from "../components/Sidebar";
 import User from "../components/User";
@@ -10,15 +10,17 @@ function AppLayout() {
   const navigation = useNavigation();
 
   const isLoading = navigation.state === "loading";
+  const appData = useRouteLoaderData("appData");
+  const initialCities = appData || [];
 
   return (
-    <CitiesProvider>
-    <div className={styles.app}>
-      <Sidebar />
+    <CitiesProvider initialCities={initialCities}>
+      <div className={styles.app}>
+        <Sidebar />
 
-      {isLoading ? <Spinner /> : <Map />}
-      <User />
-    </div>
+        {isLoading ? <Spinner /> : <Map />}
+        <User />
+      </div>
     </CitiesProvider>
   );
 }

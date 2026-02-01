@@ -2,10 +2,10 @@ import styles from "./CityList.module.css";
 import CityItem from "./CityItem";
 import Message from "./Message";
 import { getCities } from "../contexts/CitiesContext";
-import { useRouteLoaderData } from "react-router-dom";
+import { useCities } from "../contexts/CitiesContext";
 
 function CityList() {
-  const cities = useRouteLoaderData("appData");
+  const { cities } = useCities();
   if (!cities || !cities.length)
     return (
       <Message message="Add your first city by clicking on a city on the map" />

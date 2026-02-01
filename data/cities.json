@@ -1,28 +1,112 @@
 {
   "cities": [
     {
-      "cityName": "Calera y Chozas",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2026-01-31T23:48:59.060Z",
+      "cityName": "Vila Nova de Foz Coa",
+      "country": "Portugal",
+      "emoji": "🇵🇹",
+      "date": "2026-02-01T09:55:02.768Z",
       "notes": "",
       "position": {
-        "lat": "39.83882205171729",
-        "lng": "-4.965820312500001"
+        "lat": "41.062786068733026",
+        "lng": "-7.27294921875"
       },
-      "id": 1
+      "id": 3
     },
     {
-      "cityName": "El Burgo de Osma",
+      "cityName": "Viana do Bolo",
       "country": "Spain",
       "emoji": "🇪🇸",
-      "date": "2026-02-01T00:08:32.021Z",
+      "date": "2026-02-01T10:25:19.813Z",
       "notes": "",
       "position": {
-        "lat": "41.53907390231515",
-        "lng": "-3.0322265625000004"
+        "lat": "42.13082130188811",
+        "lng": "-7.031250000000001"
       },
-      "id": 2
+      "id": 4
+    },
+    {
+      "cityName": "Ciudad Real",
+      "country": "Spain",
+      "emoji": "🇪🇸",
+      "date": "2026-02-01T10:25:26.369Z",
+      "notes": "",
+      "position": {
+        "lat": "38.993572058209466",
+        "lng": "-3.9111328125000004"
+      },
+      "id": 5
+    },
+    {
+      "cityName": "Saint-Loubouer",
+      "country": "France",
+      "emoji": "🇫🇷",
+      "date": "2026-02-01T10:32:04.117Z",
+      "notes": "",
+      "position": {
+        "lat": "43.679551947820855",
+        "lng": "-0.4421790663980475"
+      },
+      "id": 6
+    },
+    {
+      "cityName": "Gallegos",
+      "country": "Spain",
+      "emoji": "🇪🇸",
+      "date": "2026-02-01T10:32:21.222Z",
+      "notes": "",
+      "position": {
+        "lat": "41.086604548323244",
+        "lng": "-3.7779295184416815"
+      },
+      "id": 7
+    },
+    {
+      "cityName": "Poilhes",
+      "country": "France",
+      "emoji": "🇫🇷",
+      "date": "2026-02-01T10:32:31.660Z",
+      "notes": "",
+      "position": {
+        "lat": "43.30146537698895",
+        "lng": "3.101018868803931"
+      },
+      "id": 8
+    },
+    {
+      "cityName": "Tiout",
+      "country": "Algeria",
+      "emoji": "🇩🇿",
+      "date": "2026-02-01T10:32:36.470Z",
+      "notes": "",
+      "position": {
+        "lat": "32.77829640991747",
+        "lng": "-0.30480544021108"
+      },
+      "id": 9
+    },
+    {
+      "cityName": "El Borma",
+      "country": "Algeria",
+      "emoji": "🇩🇿",
+      "date": "2026-02-01T10:32:41.859Z",
+      "notes": "",
+      "position": {
+        "lat": "30.736885610486524",
+        "lng": "8.310652025156392"
+      },
+      "id": 10
+    },
+    {
+      "cityName": "Sidi Ameur",
+      "country": "Algeria",
+      "emoji": "🇩🇿",
+      "date": "2026-02-01T10:32:49.342Z",
+      "notes": "",
+      "position": {
+        "lat": "35.257141394093075",
+        "lng": "3.892207820691574"
+      },
+      "id": 11
     }
   ]
 }
