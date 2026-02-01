@@ -1,24 +1,29 @@
-import Spinner from "./Spinner";
+import { useMemo } from "react";
 import styles from "./CountryList.module.css";
 import CountryItem from "./CountryItem";
 import Message from "./Message";
 import { useCities } from "../contexts/CitiesContext";
 
 function CountryList() {
-  const { cities, isLoading } = useCities();
+  // 1. Get the data from the Cities context
+  const { cities } = useCities();
+ 
+  const countries = useMemo(() => {
+    if (!cities) return [];
+    const map = new Map();
+    for (const city of cities) {
+      if (!map.has(city.country)) {
+        map.set(city.country, { country: city.country, emoji: city.emoji });
+      }
+    }
+    return Array.from(map.values());
+  }, [cities]);
 
-  if (isLoading) return <Spinner />;
-
-  if (!cities.length)
+  // 2. Guard for missing data
+  if (!cities || !cities.length)
     return (
       <Message message="Add your first city by clicking on a city on the map" />
     );
-
-  const countries = cities.reduce((arr, city) => {
-    if (!arr.map((el) => el.country).includes(city.country))
-      return [...arr, { country: city.country, emoji: city.emoji }];
-    else return arr;
-  }, []);
 
   return (
     <ul className={styles.countryList}>

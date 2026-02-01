@@ -1,4 +1,5 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useCities } from "../contexts/CitiesContext";
 import {
   MapContainer,
   TileLayer,
@@ -10,13 +11,14 @@ import {
 
 import styles from "./Map.module.css";
 import { useEffect, useState } from "react";
-import { useCities } from "../contexts/CitiesContext";
 import { useGeolocation } from "../hooks/useGeolocation";
 import { useUrlPosition } from "../hooks/useUrlPosition";
 import Button from "./Button";
 
 function Map() {
+  // 1. Getting data from the Cities context
   const { cities } = useCities();
+
   const [mapPosition, setMapPosition] = useState([40, 0]);
   const {
     isLoading: isLoadingPosition,
@@ -25,19 +27,21 @@ function Map() {
   } = useGeolocation();
   const [mapLat, mapLng] = useUrlPosition();
 
+  // 2. Syncing map position with URL coordinates
   useEffect(
     function () {
-      if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
+      if (mapLat && mapLng) setMapPosition([Number(mapLat), Number(mapLng)]);
     },
-    [mapLat, mapLng]
+    [mapLat, mapLng],
   );
 
+  // 3. Syncing map position with Geolocation
   useEffect(
     function () {
       if (geolocationPosition)
         setMapPosition([geolocationPosition.lat, geolocationPosition.lng]);
     },
-    [geolocationPosition]
+    [geolocationPosition],
   );
 
   return (
@@ -58,7 +62,9 @@ function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
         />
-        {cities.map((city) => (
+
+        {/* Rendering markers from the Router Data */}
+        {(cities || []).map((city) => (
           <Marker
             position={[city.position.lat, city.position.lng]}
             key={city.id}
@@ -78,16 +84,19 @@ function Map() {
 
 function ChangeCenter({ position }) {
   const map = useMap();
-  map.setView(position);
+  useEffect(() => {
+    if (position) map.setView(position);
+  }, [map, position]);
   return null;
 }
 
 function DetectClick() {
   const navigate = useNavigate();
-
   useMapEvents({
     click: (e) => navigate(`form?lat=${e.latlng.lat}&lng=${e.latlng.lng}`),
   });
+
+  return null;
 }
 
 export default Map;

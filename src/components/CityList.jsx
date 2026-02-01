@@ -1,15 +1,12 @@
-import Spinner from "./Spinner";
 import styles from "./CityList.module.css";
 import CityItem from "./CityItem";
 import Message from "./Message";
+import { getCities } from "../contexts/CitiesContext";
 import { useCities } from "../contexts/CitiesContext";
 
 function CityList() {
-  const { cities, isLoading } = useCities();
-
-  if (isLoading) return <Spinner />;
-
-  if (!cities.length)
+  const { cities } = useCities();
+  if (!cities || !cities.length)
     return (
       <Message message="Add your first city by clicking on a city on the map" />
     );
@@ -21,6 +18,11 @@ function CityList() {
       ))}
     </ul>
   );
+}
+
+export async function loader() {
+  const cities = await getCities();
+  return cities;
 }
 
 export default CityList;

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useRevalidator } from "react-router-dom"; // 1. Added useRevalidator
 import { useCities } from "../contexts/CitiesContext";
 import styles from "./CityItem.module.css";
 
@@ -13,9 +13,18 @@ function CityItem({ city }) {
   const { currentCity, deleteCity } = useCities();
   const { cityName, emoji, date, id, position } = city;
 
-  function handleClick(e) {
+  // 2. Initialize the revalidator here inside the component
+  const revalidator = useRevalidator();
+
+  async function handleClick(e) {
     e.preventDefault();
-    deleteCity(id);
+
+    // 3. Make sure to await the deletion so it finishes in the DB first
+    await deleteCity(id);
+
+    // 4. Trigger the revalidation! This re-runs the 'appData' loader
+    // that the Map and CityList are listening to.
+    revalidator.revalidate();
   }
 
   return (

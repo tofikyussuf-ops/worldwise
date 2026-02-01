@@ -8,9 +8,9 @@ function ProtectedRoute({ children }) {
 
   useEffect(
     function () {
-      if (!isAuthenticated) navigate("/");
+      if (!isAuthenticated) navigate("/", { replace: true });
     },
-    [isAuthenticated, navigate]
+    [isAuthenticated, navigate],
   );
 
   return isAuthenticated ? children : null;
