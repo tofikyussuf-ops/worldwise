@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
+import { useState } from "react";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import Button from "../components/Button";
 import PageNav from "../components/PageNav";
 import { useAuth } from "../contexts/FakeAuthContext";
@@ -12,19 +13,35 @@ export default function Login() {
 
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/app";
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  const [error, setError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-    if (email && password) login(email, password);
+  if (isAuthenticated) {
+    return <Navigate to={from} replace />;
   }
 
-  useEffect(
-    function () {
-      if (isAuthenticated) navigate("/app", { replace: true });
-    },
-    [isAuthenticated, navigate]
-  );
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError(null);
+
+    if (!email || !password) {
+      setError("Please enter email and password.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    const ok = await login(email, password); // works sync for demo; supports async if changed
+    setIsSubmitting(false);
+
+    if (ok) {
+      navigate(from, { replace: true });
+    } else {
+      setError("Invalid email or password.");
+    }
+  }
 
   return (
     <main className={styles.login}>
@@ -51,10 +68,19 @@ export default function Login() {
           />
         </div>
 
+        {error && (
+          <p role="alert" className={styles.error}>
+            {error}
+          </p>
+        )}
+
         <div>
-          <Button type="primary">Login</Button>
+          <Button type="primary" disabled={isSubmitting}>
+            {isSubmitting ? "Logging in…" : "Login"}
+          </Button>
         </div>
       </form>
     </main>
   );
 }
+// ...existing code...

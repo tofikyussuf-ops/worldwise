@@ -1,64 +1,28 @@
 {
   "cities": [
     {
-      "cityName": "Lisbon",
-      "country": "Portugal",
-      "emoji": "🇵🇹",
-      "date": "2027-10-31T15:59:59.138Z",
-      "notes": "My favorite city so far!",
-      "position": {
-        "lat": 38.727881642324164,
-        "lng": -9.140900099907554
-      },
-      "id": 73930385
-    },
-    {
-      "cityName": "Madrid",
+      "cityName": "Calera y Chozas",
       "country": "Spain",
       "emoji": "🇪🇸",
-      "date": "2027-07-15T08:22:53.976Z",
+      "date": "2026-01-31T23:48:59.060Z",
       "notes": "",
       "position": {
-        "lat": 40.46635901755316,
-        "lng": -3.7133789062500004
+        "lat": "39.83882205171729",
+        "lng": "-4.965820312500001"
       },
-      "id": 17806751
+      "id": 1
     },
     {
-      "cityName": "Berlin",
-      "country": "Germany",
-      "emoji": "🇩🇪",
-      "date": "2027-02-12T09:24:11.863Z",
-      "notes": "Amazing 😃",
-      "position": {
-        "lat": 52.53586782505711,
-        "lng": 13.376933665713324
-      },
-      "id": 98443197
-    },
-    {
-      "cityName": "Nijar",
+      "cityName": "El Burgo de Osma",
       "country": "Spain",
       "emoji": "🇪🇸",
-      "date": "2023-04-03T07:47:59.202Z",
+      "date": "2026-02-01T00:08:32.021Z",
       "notes": "",
       "position": {
-        "lat": "36.967508314568164",
-        "lng": "-2.13128394200588"
+        "lat": "41.53907390231515",
+        "lng": "-3.0322265625000004"
       },
-      "id": 98443198
-    },
-    {
-      "cityName": "Gouaux-de-Luchon",
-      "country": "France",
-      "emoji": "🇫🇷",
-      "date": "2026-01-30T20:03:09.419Z",
-      "notes": "",
-      "position": {
-        "lat": "42.85826238137083",
-        "lng": "0.6591796875000001"
-      },
-      "id": 98443199
+      "id": 2
     }
   ]
 }

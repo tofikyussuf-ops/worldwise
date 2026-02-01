@@ -1,4 +1,5 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useRouteLoaderData } from "react-router-dom";
 import {
   MapContainer,
   TileLayer,
@@ -10,13 +11,14 @@ import {
 
 import styles from "./Map.module.css";
 import { useEffect, useState } from "react";
-import { useCities } from "../contexts/CitiesContext";
 import { useGeolocation } from "../hooks/useGeolocation";
 import { useUrlPosition } from "../hooks/useUrlPosition";
 import Button from "./Button";
 
 function Map() {
-  const { cities } = useCities();
+  // 1. Getting data from the Router's parent loader (appData)
+  const cities = useRouteLoaderData("appData");
+
   const [mapPosition, setMapPosition] = useState([40, 0]);
   const {
     isLoading: isLoadingPosition,
@@ -25,19 +27,21 @@ function Map() {
   } = useGeolocation();
   const [mapLat, mapLng] = useUrlPosition();
 
+  // 2. Syncing map position with URL coordinates
   useEffect(
     function () {
       if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
     },
-    [mapLat, mapLng]
+    [mapLat, mapLng],
   );
 
+  // 3. Syncing map position with Geolocation
   useEffect(
     function () {
       if (geolocationPosition)
         setMapPosition([geolocationPosition.lat, geolocationPosition.lng]);
     },
-    [geolocationPosition]
+    [geolocationPosition],
   );
 
   return (
@@ -58,6 +62,8 @@ function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
         />
+
+        {/* Rendering markers from the Router Data */}
         {cities.map((city) => (
           <Marker
             position={[city.position.lat, city.position.lng]}
