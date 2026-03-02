@@ -1,22 +1,20 @@
 import { useMemo } from "react";
-import styles from "./CountryList.module.css";
-import CountryItem from "./CountryItem";
-import Message from "./Message";
 import { useCities } from "../contexts/CitiesContext";
+import CountryItem from "./CountryItem";
+import styles from "./CountryList.module.css";
+import Message from "./Message";
 
 function CountryList() {
   // 1. Get the data from the Cities context
   const { cities } = useCities();
- 
+
   const countries = useMemo(() => {
-    if (!cities) return [];
     const map = new Map();
-    for (const city of cities) {
-      if (!map.has(city.country)) {
+    cities.forEach((city) => {
+      if (!map.has(city.country))
         map.set(city.country, { country: city.country, emoji: city.emoji });
-      }
-    }
-    return Array.from(map.values());
+    });
+    return [...map.values()];
   }, [cities]);
 
   // 2. Guard for missing data
