@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import Button from "../components/Button";
 import SpinnerFullPage from "../components/SpinnerFullPage";
@@ -8,43 +7,54 @@ import { useAuth } from "../contexts/FakeAuthContext";
 import styles from "./Login.module.css";
 
 export default function Login() {
-  // PRE-FILL FOR DEV PURPOSES
+  // 1. State Management
   const [email, setEmail] = useState("jack@example.com");
   const [password, setPassword] = useState("qwerty");
+  const [error, setError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Redirect logic: Get the page the user tried to visit, or default to "/app"
   const from = location.state?.from?.pathname || "/app";
 
-  const [error, setError] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // 2. Effect: Auto-redirect if already logged in
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, navigate, from]);
 
-  if (isAuthenticated) {
-    return <Navigate to={from} replace />;
-  }
-
-  if (isSubmitting) return <SpinnerFullPage />;
-
+  // 3. Handlers
   async function handleSubmit(e) {
     e.preventDefault();
     setError(null);
 
     if (!email || !password) {
-      setError("Please enter email and password.");
+      setError("Please enter both email and password.");
       return;
     }
 
-    setIsSubmitting(true);
-    const ok = await login(email, password); // works sync for demo; supports async if changed
-    setIsSubmitting(false);
+    try {
+      setIsSubmitting(true);
+      const success = await login(email, password);
 
-    if (ok) {
-      navigate(from, { replace: true });
-    } else {
-      setError("Invalid email or password.");
+      if (!success) {
+        setError("Invalid email or password.");
+      }
+      // Note: Navigation happens via the useEffect or the 'if (ok)' block below
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   }
+
+  // Early return for loading state
+  if (isSubmitting) return <SpinnerFullPage />;
 
   return (
     <main className={styles.login}>
@@ -56,19 +66,36 @@ export default function Login() {
           <input
             type="email"
             id="email"
-            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (error) setError(null); // Clear error when user types
+            }}
             value={email}
           />
         </div>
 
         <div className={styles.row}>
           <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-          />
+          <div className={styles.passwordContainer}>
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              autoComplete="current-password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (error) setError(null); // Clear error when user types
+              }}
+              value={password}
+            />
+            <button
+              type="button"
+              className={styles.toggleBtn}
+              onClick={() => setShowPassword((s) => !s)}
+            >
+              {showPassword ? "🙈" : "👁️"}
+            </button>
+          </div>
         </div>
 
         {error && (
@@ -79,7 +106,7 @@ export default function Login() {
 
         <div>
           <Button type="primary" disabled={isSubmitting}>
-            {isSubmitting ? "Logging in…" : "Login"}
+            {isSubmitting ? "Logging in..." : "Login"}
           </Button>
         </div>
       </form>
