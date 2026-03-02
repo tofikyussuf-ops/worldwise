@@ -32,3 +32,34 @@
 .product section a {
   margin-top: 2rem;
 }
+
+.product section a:link,
+.product section a:visited {
+  display: inline-block;
+  background-color: var(--color-brand--2);
+  color: var(--color-dark--1);
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 1.6rem;
+  font-weight: 600;
+  padding: 1rem 3rem;
+  border-radius: 5px;
+  transition: all 0.3s;
+}
+
+.product section a:hover,
+.product section a:active {
+  background-color: var(--color-brand--1);
+}
+
+@media (max-width: 900px) {
+  .product section {
+    grid-template-columns: 1fr;
+    width: 100%;
+    gap: 3rem;
+  }
+
+  .product h2 {
+    font-size: 3rem;
+  }
+}
