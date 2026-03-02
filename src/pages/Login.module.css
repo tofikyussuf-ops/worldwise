@@ -9,12 +9,11 @@
   background-color: var(--color-dark--2);
   border-radius: 7px;
   padding: 2rem 3rem;
-  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 2rem;
 
-  /* Different from other form */
+  /* Centering the form */
   width: 48rem;
   margin: 8rem auto;
 }
@@ -23,4 +22,53 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+/* --- New Styles Added Below --- */
+
+.passwordContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.passwordContainer input {
+  width: 100%;
+  padding-right: 4rem; /* Make room for the emoji button */
+}
+
+.toggleBtn {
+  position: absolute;
+  right: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.8rem;
+  line-height: 1;
+  /* Centers the emoji vertically */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error {
+  font-size: 1.4rem;
+  color: #ff7782; /* Soft red that fits dark themes */
+  background-color: rgba(255, 119, 130, 0.1);
+  padding: 1rem;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Responsive adjustment for smaller screens */
+@media (max-width: 600px) {
+  .form {
+    width: 100%;
+    padding: 2rem;
+  }
+
+  .login {
+    padding: 1rem;
+  }
 }
